@@ -23,7 +23,7 @@ accordingly if the version of JDK you are using is greater than 8.
 ## Contributing
 1. __Please do not commit anything but source code and resource files to this repository, also please make modifications based on the latest version of code to avoid conflict.__
 2. __Please do include a message for every commit.__
-3. __Please inform all team members before commit any change regarding to pom.xml, .gitignore and simulator.iml.__ 
+3. __Please inform all team members before commit any change regarding to pom.xml, and .gitignore.__ 
 
 ## Usage
 Revise pom.xml if you are using JDK11
