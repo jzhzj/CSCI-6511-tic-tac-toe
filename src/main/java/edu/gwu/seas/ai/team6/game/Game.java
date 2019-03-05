@@ -1,6 +1,6 @@
 package edu.gwu.seas.ai.team6.game;
 
-import edu.gwu.seas.ai.team6.game.board.AbstractPiece;
+import edu.gwu.seas.ai.team6.game.board.interfaces.Piece;
 
 public interface Game {
     /**
@@ -12,5 +12,5 @@ public interface Game {
      * @param ourPieceType the type of our piece
      * @return the new game
      */
-    Game createGame(int otherTeamId, int n, int m, AbstractPiece.PieceType ourPieceType);
+    Game createGame(int otherTeamId, int n, int m, Piece.PieceType ourPieceType);
 }

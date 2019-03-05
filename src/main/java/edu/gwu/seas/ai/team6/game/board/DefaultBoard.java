@@ -5,7 +5,7 @@ import edu.gwu.seas.ai.team6.game.board.interfaces.Piece;
 
 public class DefaultBoard extends AbstractBoard {
 
-    public DefaultBoard(int n, AbstractPiece.PieceType ourPieceType) {
+    public DefaultBoard(int n, Piece.PieceType ourPieceType) {
         super(n, ourPieceType);
     }
 
@@ -16,7 +16,7 @@ public class DefaultBoard extends AbstractBoard {
 
     @Override
     public void moveAt(Coordinate coordinate, boolean isOurMove) {
-        AbstractPiece.PieceType type = isOurMove ? ourPieceType : opponentsPieceType;
+        Piece.PieceType type = isOurMove ? ourPieceType : opponentsPieceType;
         int x = coordinate.getX();
         int y = coordinate.getY();
         DefaultPiece piece = new DefaultPiece(coordinate, type);

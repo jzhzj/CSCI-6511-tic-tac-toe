@@ -1,8 +1,18 @@
 package edu.gwu.seas.ai.team6.game.board.interfaces;
 
-import edu.gwu.seas.ai.team6.game.board.AbstractPiece;
-
 public interface Piece {
+    enum PieceType {
+        /**
+         * stands for Crosses
+         */
+        X,
+
+        /**
+         * stands for Noughts
+         */
+        O
+    }
+
     /**
      * get the coordinate of the piece
      *
@@ -15,5 +25,5 @@ public interface Piece {
      *
      * @return the type of the piece
      */
-    AbstractPiece.PieceType getType();
+    PieceType getType();
 }
