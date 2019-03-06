@@ -1,5 +1,10 @@
 package edu.gwu.seas.ai.team6.game.board.interfaces;
 
+/**
+ * An object representing the coordinate of a piece.
+ *
+ * @author qijiuzhi
+ */
 public interface Coordinate {
     /**
      * get the x-coordinate

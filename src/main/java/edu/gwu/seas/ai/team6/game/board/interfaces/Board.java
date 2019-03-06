@@ -1,5 +1,10 @@
 package edu.gwu.seas.ai.team6.game.board.interfaces;
 
+/**
+ * An object representing the board of the game.
+ *
+ * @author qijiuzhi
+ */
 public interface Board {
     /**
      * mark a space with a piece
@@ -23,9 +28,11 @@ public interface Board {
     void moveAt(Coordinate coordinate, boolean ourMove);
 
     /**
-     * get last move in the board
+     * Gets the last move in the board.
+     * This move is not synchronized with the remote game host,
+     * it's only the last move that our local board stores.
      *
-     * @return the last piece placed on the board
+     * @return the last piece placed on the board or null if no piece is on the board
      */
     Piece getLastPiece();
 }
