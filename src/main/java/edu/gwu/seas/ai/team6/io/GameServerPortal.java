@@ -1,5 +1,6 @@
 package edu.gwu.seas.ai.team6.io;
 
+import edu.gwu.seas.ai.team6.game.board.DefaultCoordinate;
 import edu.gwu.seas.ai.team6.game.board.interfaces.Coordinate;
 import edu.gwu.seas.ai.team6.io.util.Move;
 import okhttp3.*;
@@ -101,7 +102,58 @@ public class GameServerPortal extends AbstractPortal {
      */
     @Override
     public String moveAt(Coordinate coordinate, String gameId) {
-        return null;
+
+        // create a form body
+        FormBody body = new FormBody.Builder().
+                add("teamId", TEAM_ID).
+                add("move", coordinate.toString()).
+                add("type", BODY_TYPE_MOVE).
+                add("gameId", gameId).build();
+
+        // send the request
+        Request request = createPostRequest(body);
+
+        Call call = client.newCall(request);
+
+        String moveId = null;
+
+        String msg = null;
+
+        try {
+            // get the response from the game server
+            Response response = call.execute();
+
+            if (response.isSuccessful()) {
+
+                // get the String encapsulated in the body
+                msg = new String(response.body().bytes());
+
+                // if the server returns a FAIL code
+                if (msg.contains(CODE_FAIL)) {
+                    throw new IOException();
+                }
+
+                // get the index of ":", which plus one equals to the start index of the game id
+                int columnIndex = msg.indexOf(":");
+                // get the index of ",", which equals to the end index
+                int commaIndex = msg.indexOf(",");
+
+                // if cannot find the index of either column or comma, throw an IOException
+                if (columnIndex == -1 || commaIndex == -1) {
+                    throw new IOException();
+                }
+
+                // get the substring of the moveId
+                moveId = msg.substring(columnIndex + 1, commaIndex);
+
+            }
+        } catch (IOException e) {
+            System.out.println(
+                    "Couldn't resolve the json returned by the server." +
+                            System.lineSeparator() + "Result: " + msg);
+            e.printStackTrace();
+        }
+        return moveId;
     }
 
     /**
@@ -109,7 +161,7 @@ public class GameServerPortal extends AbstractPortal {
      */
     @Override
     public String moveAt(int x, int y, String gameId) {
-        return null;
+        return moveAt(new DefaultCoordinate(x, y), gameId);
     }
 
     /**
