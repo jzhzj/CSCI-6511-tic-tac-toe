@@ -41,6 +41,18 @@ public class GameServerPortal extends AbstractPortal {
         }
     }
 
+    @FunctionalInterface
+    private interface Indexer {
+        /**
+         * get the index of the goal string from the origin string
+         *
+         * @param string the origin string
+         * @param goal   the substring that you want to get index of
+         * @return the index of the goal in the origin string
+         */
+        int indexOf(String string, String goal);
+    }
+
     /**
      * @see Portal#createGame(String)
      */
@@ -56,45 +68,8 @@ public class GameServerPortal extends AbstractPortal {
 
         // generate a new POST request
         Request postRequest = createPostRequest(body);
-        // send the request
-        Call call = client.newCall(postRequest);
 
-        String gameId = null;
-
-        String msg = null;
-
-        try {
-            // get the response from the game server
-            Response response = call.execute();
-
-            if (response.isSuccessful()) {
-
-                // get the String encapsulated in the body
-                msg = new String(response.body().bytes());
-
-                // if the server returns a FAIL code
-                if (msg.contains(CODE_FAIL)) {
-                    throw new IOException();
-                }
-
-                // get the last index of ":", which plus one equals to the start index of the game id
-                int index = msg.lastIndexOf(":");
-
-                // if there is no ":" in the String, throw an IOException
-                if (index == -1) {
-                    throw new IOException();
-                }
-
-                // get the substring of the game id
-                gameId = msg.substring(index + 1, msg.length() - 1);
-            }
-        } catch (IOException e) {
-            System.out.println(
-                    "Couldn't resolve the json returned by the server." +
-                            System.lineSeparator() + "Result: " + msg);
-            e.printStackTrace();
-        }
-        return gameId;
+        return sendRequest(postRequest, ":", 1, String::lastIndexOf, "}", 1, String::lastIndexOf);
     }
 
     /**
@@ -113,47 +88,7 @@ public class GameServerPortal extends AbstractPortal {
         // send the request
         Request request = createPostRequest(body);
 
-        Call call = client.newCall(request);
-
-        String moveId = null;
-
-        String msg = null;
-
-        try {
-            // get the response from the game server
-            Response response = call.execute();
-
-            if (response.isSuccessful()) {
-
-                // get the String encapsulated in the body
-                msg = new String(response.body().bytes());
-
-                // if the server returns a FAIL code
-                if (msg.contains(CODE_FAIL)) {
-                    throw new IOException();
-                }
-
-                // get the index of ":", which plus one equals to the start index of the game id
-                int columnIndex = msg.indexOf(":");
-                // get the index of ",", which equals to the end index
-                int commaIndex = msg.indexOf(",");
-
-                // if cannot find the index of either column or comma, throw an IOException
-                if (columnIndex == -1 || commaIndex == -1) {
-                    throw new IOException();
-                }
-
-                // get the substring of the moveId
-                moveId = msg.substring(columnIndex + 1, commaIndex);
-
-            }
-        } catch (IOException e) {
-            System.out.println(
-                    "Couldn't resolve the json returned by the server." +
-                            System.lineSeparator() + "Result: " + msg);
-            e.printStackTrace();
-        }
-        return moveId;
+        return sendRequest(request, ":", 1, String::indexOf, ",", 1, String::indexOf);
     }
 
     /**
@@ -229,5 +164,60 @@ public class GameServerPortal extends AbstractPortal {
             sb.append("&");
         }
         return sb.toString();
+    }
+
+    /**
+     * sends request to the server.
+     *
+     * @param request    request
+     * @param separator1 the first separator
+     * @param prior      the difference between the indices of the separator1 and of the interested string
+     * @param indexer1   the indexer for the first separator
+     * @param separator2 the second separator
+     * @param behind     the difference between the indices of the last char of the interested string and of the separator2
+     * @param indexer2   the indexer for the second separator
+     */
+    private String sendRequest(Request request, String separator1, int prior, Indexer indexer1, String separator2, int behind, Indexer indexer2) {
+        Call call = client.newCall(request);
+
+        String interestedStr = null;
+
+        String msg = null;
+
+        try {
+            // get the response from the game server
+            Response response = call.execute();
+
+            if (response.isSuccessful()) {
+
+                // get the String encapsulated in the body
+                msg = new String(response.body().bytes());
+
+                // if the server returns a FAIL code
+                if (msg.contains(CODE_FAIL)) {
+                    throw new IOException();
+                }
+
+                // get the index of separator1
+                int index1 = indexer1.indexOf(msg, separator1);
+                // get the index of separator2
+                int index2 = indexer2.indexOf(msg, separator2);
+
+                // if cannot find the index of either separator1 or 2, throw an IOException
+                if (index1 == -1 || index2 == -1) {
+                    throw new IOException();
+                }
+
+                // get the substring of the interested str
+                interestedStr = msg.substring(index1 + prior, index2 - behind + 1);
+
+            }
+        } catch (IOException e) {
+            System.out.println(
+                    "Couldn't resolve the json returned by the server." +
+                            System.lineSeparator() + "Result: " + msg);
+            e.printStackTrace();
+        }
+        return interestedStr;
     }
 }
