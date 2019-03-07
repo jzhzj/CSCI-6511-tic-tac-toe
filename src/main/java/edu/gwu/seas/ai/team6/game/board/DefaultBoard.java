@@ -16,11 +16,17 @@ public class DefaultBoard extends AbstractBoard {
         super(n, ourPieceType);
     }
 
+    /**
+     * @see Board#moveAt(int, int, boolean)
+     */
     @Override
     public void moveAt(int x, int y, boolean isOurMove) {
         moveAt(new DefaultCoordinate(x, y), isOurMove);
     }
 
+    /**
+     * @see Board#moveAt(Coordinate, boolean)
+     */
     @Override
     public void moveAt(Coordinate coordinate, boolean isOurMove) {
         Piece.PieceType type = isOurMove ? ourPieceType : opponentsPieceType;
@@ -31,6 +37,9 @@ public class DefaultBoard extends AbstractBoard {
         lastPiece = piece;
     }
 
+    /**
+     * @see Board#getLastPiece()
+     */
     @Override
     public Piece getLastPiece() {
         return lastPiece;

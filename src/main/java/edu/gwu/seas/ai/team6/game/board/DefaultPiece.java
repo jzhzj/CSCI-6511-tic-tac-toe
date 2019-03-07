@@ -18,11 +18,17 @@ public class DefaultPiece extends AbstractPiece {
         super(x, y, type);
     }
 
+    /**
+     * @see Piece#getCoordinate()
+     */
     @Override
     public Coordinate getCoordinate() {
         return this.coordinate;
     }
 
+    /**
+     * @see Piece#getType()
+     */
     @Override
     public PieceType getType() {
         return type;

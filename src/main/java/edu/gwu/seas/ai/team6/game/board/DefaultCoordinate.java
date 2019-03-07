@@ -14,11 +14,17 @@ public class DefaultCoordinate extends AbstractCoordinate {
         super(x, y);
     }
 
+    /**
+     * @see Coordinate#getX()
+     */
     @Override
     public int getX() {
         return x;
     }
 
+    /**
+     * @see Coordinate#getY()
+     */
     @Override
     public int getY() {
         return y;
