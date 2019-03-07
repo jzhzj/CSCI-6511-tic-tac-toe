@@ -60,6 +60,8 @@ public class GameServerPortal extends AbstractPortal {
 
         String gameId = null;
 
+        String msg = null;
+
         try {
             // get the response from the game server
             Response response = call.execute();
@@ -67,16 +69,18 @@ public class GameServerPortal extends AbstractPortal {
             if (response.isSuccessful()) {
 
                 // get the String encapsulated in the body
-                String msg = new String(response.body().bytes());
+                msg = new String(response.body().bytes());
+
+                // if the server returns a FAIL code
+                if (msg.contains(CODE_FAIL)) {
+                    throw new IOException();
+                }
 
                 // get the last index of ":", which plus one equals to the start index of the game id
                 int index = msg.lastIndexOf(":");
 
                 // if there is no ":" in the String, throw an IOException
                 if (index == -1) {
-                    System.out.println(
-                            "Couldn't resolve the json returned by the server." +
-                                    System.lineSeparator() + "Result: " + msg);
                     throw new IOException();
                 }
 
@@ -84,8 +88,10 @@ public class GameServerPortal extends AbstractPortal {
                 gameId = msg.substring(index + 1, msg.length() - 1);
             }
         } catch (IOException e) {
+            System.out.println(
+                    "Couldn't resolve the json returned by the server." +
+                            System.lineSeparator() + "Result: " + msg);
             e.printStackTrace();
-            return null;
         }
         return gameId;
     }
