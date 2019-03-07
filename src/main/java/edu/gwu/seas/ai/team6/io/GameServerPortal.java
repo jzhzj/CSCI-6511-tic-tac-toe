@@ -176,6 +176,7 @@ public class GameServerPortal extends AbstractPortal {
      * @param separator2 the second separator
      * @param behind     the difference between the indices of the last char of the interested string and of the separator2
      * @param indexer2   the indexer for the second separator
+     * @return the interested substring of the response from the game server
      */
     private String sendRequest(Request request, String separator1, int prior, Indexer indexer1, String separator2, int behind, Indexer indexer2) {
         Call call = client.newCall(request);
