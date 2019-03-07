@@ -19,6 +19,8 @@ public class ProjProps {
         PRAMS_TYPE_MOVES = rb.getString("PRAMS_TYPE_MOVES");
         PRAMS_TYPE_BOARD_STRING = rb.getString("PRAMS_TYPE_BOARD_STRING");
         PRAMS_TYPE_BOARD_MAP = rb.getString("PRAMS_TYPE_BOARD_MAP");
+        CODE_OK = rb.getString("CODE_OK");
+        CODE_FAIL = rb.getString("CODE_FAIL");
         TEAM_ID = rb.getString("TEAM_ID");
     }
 
@@ -35,5 +37,7 @@ public class ProjProps {
     public static final String PRAMS_TYPE_MOVES;
     public static final String PRAMS_TYPE_BOARD_STRING;
     public static final String PRAMS_TYPE_BOARD_MAP;
+    public static final String CODE_OK;
+    public static final String CODE_FAIL;
     public static final String TEAM_ID;
 }
