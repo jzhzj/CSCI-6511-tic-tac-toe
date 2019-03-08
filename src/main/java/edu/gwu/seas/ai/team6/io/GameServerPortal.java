@@ -209,16 +209,16 @@ public class GameServerPortal extends AbstractPortal {
 
     /**
      * sends request to the server.
-     *
+     * <p>
      * This is what this method does:
-     *      1. call the request via the http client
-     *      2. get the string encapsulated in the http body
-     *      3. get the first anchor index by using the separator1 and indexer1
-     *      4. get the second anchor index by using the separator2 and indexer2
-     *      5. get the start index of the interested string which equals (first anchor + prior)
-     *      6. get the end index of the interested string which equals (second anchor - behind + 1)
-     *      7. get the interested string by the indices we got from step 5 and 6
-     *      8. return the interested string
+     * 1. call the request via the http client
+     * 2. get the string encapsulated in the http body
+     * 3. get the first anchor index by using the separator1 and indexer1
+     * 4. get the second anchor index by using the separator2 and indexer2
+     * 5. get the start index of the interested string which equals (first anchor + prior)
+     * 6. get the end index of the interested string which equals (second anchor - behind + 1)
+     * 7. get the interested string by the indices we got from step 5 and 6
+     * 8. return the interested string
      *
      * @param request    request
      * @param separator1 the first separator
