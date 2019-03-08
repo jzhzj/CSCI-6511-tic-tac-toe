@@ -1,8 +1,10 @@
 package edu.gwu.seas.ai.team6.io;
 
+import com.google.gson.Gson;
 import edu.gwu.seas.ai.team6.game.board.DefaultCoordinate;
 import edu.gwu.seas.ai.team6.game.board.interfaces.Coordinate;
 import edu.gwu.seas.ai.team6.io.util.Move;
+import edu.gwu.seas.ai.team6.io.util.MoveList;
 import okhttp3.*;
 
 import java.io.IOException;
@@ -104,7 +106,27 @@ public class GameServerPortal extends AbstractPortal {
      */
     @Override
     public List<Move> getMoves(String gameId, int count) {
-        return null;
+
+        if (count < 1) {
+            return null;
+        }
+
+        Request getRequest = createGetRequest(
+                new ParamEntry("type", PARAMS_TYPE_MOVES),
+                new ParamEntry("gameId", gameId),
+                new ParamEntry("count", count + ""));
+
+        String json = sendRequest(getRequest, "{", 0, String::indexOf, "}", 0, String::lastIndexOf);
+
+        if (json.contains(CODE_FAIL)) {
+            return null;
+        }
+
+        Gson gson = new Gson();
+
+        MoveList moveList = gson.fromJson(json, MoveList.class);
+
+        return moveList.getMoves();
     }
 
     /**
@@ -112,7 +134,11 @@ public class GameServerPortal extends AbstractPortal {
      */
     @Override
     public Move getLastMove(String gameId) {
-        return null;
+        List<Move> list = getMoves(gameId, 1);
+        if (list == null || list.size() == 0) {
+            return null;
+        }
+        return list.get(0);
     }
 
     /**
@@ -168,6 +194,16 @@ public class GameServerPortal extends AbstractPortal {
 
     /**
      * sends request to the server.
+     *
+     * This is what this method does:
+     *      1. call the request via the http client
+     *      2. get the string encapsulated in the http body
+     *      3. get the first anchor index by using the separator1 and indexer1
+     *      4. get the second anchor index by using the separator2 and indexer2
+     *      5. get the start index of the interested string which equals (first anchor + prior)
+     *      6. get the end index of the interested string which equals (second anchor - behind + 1)
+     *      7. get the interested string by the indices we got from step 5 and 6
+     *      8. return the interested string
      *
      * @param request    request
      * @param separator1 the first separator
