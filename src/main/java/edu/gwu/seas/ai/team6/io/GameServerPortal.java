@@ -3,6 +3,7 @@ package edu.gwu.seas.ai.team6.io;
 import com.google.gson.Gson;
 import edu.gwu.seas.ai.team6.game.board.DefaultCoordinate;
 import edu.gwu.seas.ai.team6.game.board.interfaces.Coordinate;
+import edu.gwu.seas.ai.team6.io.util.BoardInfo;
 import edu.gwu.seas.ai.team6.io.util.Move;
 import edu.gwu.seas.ai.team6.io.util.MoveList;
 import okhttp3.*;
@@ -146,7 +147,7 @@ public class GameServerPortal extends AbstractPortal {
      */
     @Override
     public String getBoardString(String gameId) {
-        return null;
+        return getBoardInfo(PARAMS_TYPE_BOARD_STRING, gameId);
     }
 
     /**
@@ -154,7 +155,21 @@ public class GameServerPortal extends AbstractPortal {
      */
     @Override
     public String getBoardMap(String gameId) {
-        return null;
+        return getBoardInfo(PARAMS_TYPE_BOARD_MAP, gameId);
+    }
+
+    private String getBoardInfo(String type, String gameId) {
+        Request request = createGetRequest(new ParamEntry("type", type), new ParamEntry("gameId", gameId));
+        String json = sendRequest(request, "{", 0, String::indexOf, "}", 0, String::lastIndexOf);
+
+        if (json.contains(CODE_FAIL)) {
+            return null;
+        }
+
+        Gson gson = new Gson();
+
+        BoardInfo boardInfo = gson.fromJson(json, BoardInfo.class);
+        return boardInfo.getOutput();
     }
 
     private Request createPostRequest(FormBody body) {
