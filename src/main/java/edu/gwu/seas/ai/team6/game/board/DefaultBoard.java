@@ -35,4 +35,9 @@ public class DefaultBoard extends AbstractBoard {
     public Piece getLastPiece() {
         return lastPiece;
     }
+
+    @Override
+    public Piece getPiece(int x, int y) {
+        return board[x][y];
+    }
 }
