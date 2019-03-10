@@ -22,6 +22,7 @@ public class ProjProps {
         CODE_OK = rb.getString("CODE_OK");
         CODE_FAIL = rb.getString("CODE_FAIL");
         TEAM_ID = rb.getString("TEAM_ID");
+        TEST_FLAG = Boolean.valueOf(rb.getString("TEST_FLAG"));
     }
 
     public static final String SERVER_ADDR;
@@ -40,4 +41,7 @@ public class ProjProps {
     public static final String CODE_OK;
     public static final String CODE_FAIL;
     public static final String TEAM_ID;
+
+    public static final boolean TEST_FLAG;
+    public static final String TEST_STR = "[TEST LOG] ";
 }

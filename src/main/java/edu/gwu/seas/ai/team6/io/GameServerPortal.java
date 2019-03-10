@@ -21,6 +21,7 @@ import static edu.gwu.seas.ai.team6.util.ProjProps.*;
  */
 public class GameServerPortal extends AbstractPortal {
     private final OkHttpClient client = new OkHttpClient();
+    private final Gson gson = new Gson();
 
     /**
      * A ParamEntry object stands for a pair of key and value
@@ -61,6 +62,7 @@ public class GameServerPortal extends AbstractPortal {
      */
     @Override
     public String createGame(String opponentTeamId) {
+        log("Sending create game request to the game server...");
 
         // create a form body
         FormBody body = new FormBody.Builder().
@@ -72,7 +74,11 @@ public class GameServerPortal extends AbstractPortal {
         // generate a new POST request
         Request postRequest = createPostRequest(body);
 
-        return sendRequest(postRequest, ":", 1, String::lastIndexOf, "}", 1, String::lastIndexOf);
+        String gameId = sendRequest(postRequest, ":", 1, String::lastIndexOf, "}", 1, String::lastIndexOf);
+
+        log("Returned game id: " + gameId);
+
+        return gameId;
     }
 
     /**
@@ -80,6 +86,7 @@ public class GameServerPortal extends AbstractPortal {
      */
     @Override
     public String moveAt(Coordinate coordinate, String gameId) {
+        log("Sending move request to the game server...");
 
         // create a form body
         FormBody body = new FormBody.Builder().
@@ -91,7 +98,11 @@ public class GameServerPortal extends AbstractPortal {
         // send the request
         Request request = createPostRequest(body);
 
-        return sendRequest(request, ":", 1, String::indexOf, ",", 1, String::indexOf);
+        String moveId = sendRequest(request, ":", 1, String::indexOf, ",", 1, String::indexOf);
+
+        log("Returned move id: " + moveId);
+
+        return moveId;
     }
 
     /**
@@ -109,8 +120,11 @@ public class GameServerPortal extends AbstractPortal {
     public List<Move> getMoves(String gameId, int count) {
 
         if (count < 1) {
+            log("The number of moves you want to retrieve from the server is less than 1. Request was not sent.");
             return null;
         }
+
+        log("Retrieving recent " + count + " move(s) from the game server...");
 
         Request getRequest = createGetRequest(
                 new ParamEntry("type", PARAMS_TYPE_MOVES),
@@ -119,11 +133,9 @@ public class GameServerPortal extends AbstractPortal {
 
         String json = sendRequest(getRequest, "{", 0, String::indexOf, "}", 0, String::lastIndexOf);
 
-        if (json.contains(CODE_FAIL)) {
+        if (json == null) {
             return null;
         }
-
-        Gson gson = new Gson();
 
         MoveList moveList = gson.fromJson(json, MoveList.class);
 
@@ -137,6 +149,7 @@ public class GameServerPortal extends AbstractPortal {
     public Move getLastMove(String gameId) {
         List<Move> list = getMoves(gameId, 1);
         if (list == null || list.size() == 0) {
+            log("No moves on the board yet");
             return null;
         }
         return list.get(0);
@@ -147,6 +160,8 @@ public class GameServerPortal extends AbstractPortal {
      */
     @Override
     public String getBoardString(String gameId) {
+        log("Requesting the board string...");
+
         return getBoardInfo(PARAMS_TYPE_BOARD_STRING, gameId);
     }
 
@@ -155,6 +170,8 @@ public class GameServerPortal extends AbstractPortal {
      */
     @Override
     public String getBoardMap(String gameId) {
+        log("Requesting the board map...");
+
         return getBoardInfo(PARAMS_TYPE_BOARD_MAP, gameId);
     }
 
@@ -162,13 +179,12 @@ public class GameServerPortal extends AbstractPortal {
         Request request = createGetRequest(new ParamEntry("type", type), new ParamEntry("gameId", gameId));
         String json = sendRequest(request, "{", 0, String::indexOf, "}", 0, String::lastIndexOf);
 
-        if (json.contains(CODE_FAIL)) {
+        if (json == null) {
             return null;
         }
 
-        Gson gson = new Gson();
-
         BoardInfo boardInfo = gson.fromJson(json, BoardInfo.class);
+
         return boardInfo.getOutput();
     }
 
@@ -250,6 +266,10 @@ public class GameServerPortal extends AbstractPortal {
                     throw new IOException();
                 }
 
+                if (TEST_FLAG) {
+                    log("The json string returned by the server: " + msg);
+                }
+
                 // get the index of separator1
                 int index1 = indexer1.indexOf(msg, separator1);
                 // get the index of separator2
@@ -265,9 +285,12 @@ public class GameServerPortal extends AbstractPortal {
 
             }
         } catch (IOException e) {
-            System.out.println(
-                    "Couldn't resolve the json returned by the server." +
-                            System.lineSeparator() + "Result: " + msg);
+            String info = "Couldn't resolve the json returned by the server." +
+                    System.lineSeparator() + "\t\tResult: " + msg;
+            if (TEST_FLAG) {
+                log(info);
+            }
+            System.out.println(info);
             e.printStackTrace();
         }
         return interestedStr;

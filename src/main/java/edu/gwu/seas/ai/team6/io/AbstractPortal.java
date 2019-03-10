@@ -1,10 +1,18 @@
 package edu.gwu.seas.ai.team6.io;
 
-import edu.gwu.seas.ai.team6.util.ProjProps;
+import static edu.gwu.seas.ai.team6.util.ProjProps.TEST_FLAG;
+import static edu.gwu.seas.ai.team6.util.ProjProps.TEST_STR;
 
 /**
  * @author qijiuzhi
  */
 public abstract class AbstractPortal implements Portal {
-    final String ourTeamId = ProjProps.TEAM_ID;
+
+    public void log(String info) {
+        if (TEST_FLAG) {
+            System.out.println(TEST_STR + info);
+            System.out.println();
+            System.out.println();
+        }
+    }
 }
