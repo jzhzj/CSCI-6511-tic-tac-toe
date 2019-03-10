@@ -2,6 +2,12 @@ package edu.gwu.seas.ai.team6.util;
 
 import java.util.ResourceBundle;
 
+/**
+ * This class is used to read properties from prop.properties.
+ *
+ * @author qijiuzhi
+ * @date 2019-03-04
+ */
 public class ProjProps {
     static {
         ResourceBundle rb = ResourceBundle.getBundle("prop");
