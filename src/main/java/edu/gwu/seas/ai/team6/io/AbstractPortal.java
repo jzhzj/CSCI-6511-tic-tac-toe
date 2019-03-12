@@ -1,10 +1,9 @@
 package edu.gwu.seas.ai.team6.io;
 
-import edu.gwu.seas.ai.team6.util.ProjProps;
+import edu.gwu.seas.ai.team6.util.Tester;
 
 /**
  * @author qijiuzhi
  */
-public abstract class AbstractPortal implements Portal {
-    final String ourTeamId = ProjProps.TEAM_ID;
+public abstract class AbstractPortal extends Tester implements Portal {
 }

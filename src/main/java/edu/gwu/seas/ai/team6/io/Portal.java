@@ -51,6 +51,9 @@ public interface Portal {
 
     /**
      * Gets the last move on the board. The move could be either ours or the opponent's.
+     *
+     * @param gameId game id
+     * @return a string representing the board
      */
     Move getLastMove(String gameId);
 
@@ -68,6 +71,9 @@ public interface Portal {
      * Gets a json String representing the board.
      * e.g.
      * "{\"11,15\":\"O\",\"11,16\":\"X\",\"11,17\":\"O\"}"
+     *
+     * @param gameId game id
+     * @return a string representing the board
      */
     String getBoardMap(String gameId);
 }

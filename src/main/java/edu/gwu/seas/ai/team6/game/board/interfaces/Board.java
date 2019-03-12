@@ -35,4 +35,11 @@ public interface Board {
      * @return the last piece placed on the board or null if no piece is on the board
      */
     Piece getLastPiece();
+
+    /**
+     * Gets the piece at a certain coordination on the board
+     *
+     * @return the piece
+     */
+    Piece getPiece(int x, int y);
 }
