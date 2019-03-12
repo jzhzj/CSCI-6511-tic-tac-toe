@@ -266,9 +266,7 @@ public class GameServerPortal extends AbstractPortal {
                     throw new IOException();
                 }
 
-                if (TEST_FLAG) {
-                    log("The json string returned by the server: " + msg);
-                }
+                log("The json string returned by the server: " + msg);
 
                 // get the index of separator1
                 int index1 = indexer1.indexOf(msg, separator1);
@@ -287,9 +285,7 @@ public class GameServerPortal extends AbstractPortal {
         } catch (IOException e) {
             String info = "Couldn't resolve the json returned by the server." +
                     System.lineSeparator() + "\t\tResult: " + msg;
-            if (TEST_FLAG) {
-                log(info);
-            }
+            log(info);
             System.out.println(info);
             e.printStackTrace();
         }
