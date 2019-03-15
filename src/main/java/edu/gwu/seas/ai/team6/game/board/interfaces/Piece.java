@@ -19,7 +19,12 @@ public interface Piece {
         /**
          * stands for Noughts
          */
-        O
+        O,
+
+//        /**
+//         * stands for blanks
+//         */
+//        Blank
     }
 
     /**

@@ -17,15 +17,10 @@ public interface Board {
      */
     void moveAt(int x, int y, boolean ourMove);
 
-    /**
-     * mark a space with a piece
-     *
-     * @param coordinate the coordinate of the move
-     * @param ourMove    indicating if this is our move
-     *                   true: our move
-     *                   false: opponent's move
-     */
+
     void moveAt(Coordinate coordinate, boolean ourMove);
+
+    void moveAt(int index, boolean ourMove);
 
     /**
      * Gets the last move in the board.
