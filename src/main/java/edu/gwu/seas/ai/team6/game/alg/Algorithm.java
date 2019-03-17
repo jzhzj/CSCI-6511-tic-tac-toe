@@ -8,5 +8,6 @@ public class Algorithm {
     public static void miniMax(DefaultBoard board,int MaxDepth){
         MiniMax.run(board,MaxDepth);
     }
+    public static void alphaBetaPruning(DefaultBoard board, int MaxDepth) { AlphaBetaPruning.run(board,MaxDepth);}
 }
 

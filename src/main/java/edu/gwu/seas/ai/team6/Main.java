@@ -8,7 +8,7 @@ import edu.gwu.seas.ai.team6.game.board.interfaces.Piece;
 import java.util.Scanner;
 
 public class Main {
-    static DefaultBoard board = new DefaultBoard(3,3, Piece.PieceType.X);
+    static DefaultBoard board = new DefaultBoard(7,5, Piece.PieceType.X);
     static Scanner sc = new Scanner(System.in);
 
     private static void getPlayerMove () {
@@ -21,7 +21,7 @@ public class Main {
         if (board.getTurn() != board.getOurtype()) {
             getPlayerMove();
         } else {
-            Algorithm.miniMax(board,7);
+            Algorithm.alphaBetaPruning(board,7);
         }
     }
     private static void printGameStatus () {
@@ -39,7 +39,7 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("starting a new game");
-        board.moveAt(4,false);
+        board.moveAt(15,false);
         while(board.isGameOver()!=true) {
             printGameStatus();
             playMove();
