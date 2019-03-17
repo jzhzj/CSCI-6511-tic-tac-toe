@@ -37,6 +37,13 @@ abstract class AbstractBoard implements Board {
      */
     private void reset(){
         this.board = new Piece[width][width];
+        for(int i=0;i<width;i++){
+            for(int j=0;j<width;j++){
+                Piece piece = new DefaultPiece(i,j, Piece.PieceType.Blank);
+                this.board[i][j] = piece;
+
+            }
+        }
         this.playerTurn = ourPieceType;
         this.gameOver = false;
         this.moveCount = 0;

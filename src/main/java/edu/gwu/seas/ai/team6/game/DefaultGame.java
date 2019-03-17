@@ -1,5 +1,8 @@
 package edu.gwu.seas.ai.team6.game;
 
+import edu.gwu.seas.ai.team6.game.alg.Algorithm;
+import edu.gwu.seas.ai.team6.game.alg.MiniMax;
+import edu.gwu.seas.ai.team6.game.board.DefaultBoard;
 import edu.gwu.seas.ai.team6.game.board.interfaces.Piece;
 import edu.gwu.seas.ai.team6.io.Portal;
 
@@ -53,6 +56,10 @@ public class DefaultGame extends AbstractGame {
 
     @Override
     public void run() {
-
+        portal.createGame(opponentId);
+        portal.getBoardString(gameId);
+        DefaultBoard board = new DefaultBoard(n,m,ourPieceType);
+        Algorithm.miniMax(board,7);
+        portal.moveAt(board.getLastPiece().getCoordinate(),gameId);
     }
 }

@@ -39,7 +39,7 @@ public class DefaultBoard extends AbstractBoard {
 
         int x = coordinate.getX();
         int y = coordinate.getY();
-        if(board[x][y] == null){
+        if(board[x][y].getType() == Piece.PieceType.Blank){
             Piece piece = new DefaultPiece(coordinate, type);
             this.board[x][y] = piece;
             lastPiece = piece;
@@ -105,13 +105,15 @@ public class DefaultBoard extends AbstractBoard {
 
     public Piece[][] getBoard(){ return board;}
 
+    public Piece.PieceType getOurtype(){ return ourPieceType;}
+
 
     private void CheckCol(int x,int y) {
         int i,j;
         i=j=y;
-        while(board[x][--i].getType()==lastPiece.getType());
-        while(board[x][++j].getType()==lastPiece.getType());
-        if (j-i+1 == goal) {
+        while(i>-1&&board[x][i].getType()==lastPiece.getType()){i--;}
+        while(j<width&&board[x][j].getType()==lastPiece.getType()){j++;}
+        if (j-i-1 == goal) {
             winner = playerTurn;
             gameOver = true;
         }
@@ -120,9 +122,9 @@ public class DefaultBoard extends AbstractBoard {
     private void CheckRow(int x,int y){
         int i,j;
         i=j=x;
-        while(board[--i][y].getType()==lastPiece.getType());
-        while(board[++j][y].getType()==lastPiece.getType());
-        if (j-i+1 == goal) {
+        while(i>-1&&board[i][y].getType()==lastPiece.getType()){i--;}
+        while(j<width&&board[j][y].getType()==lastPiece.getType()){j++;}
+        if (j-i-1 == goal) {
             winner = playerTurn;
             gameOver = true;
         }
@@ -132,9 +134,9 @@ public class DefaultBoard extends AbstractBoard {
         int ix,jx,iy,jy;
         ix=jx=x;
         iy=jy=y;
-        while(board[--ix][++iy].getType()==lastPiece.getType());
-        while(board[++jx][--jy].getType()==lastPiece.getType());
-        if (jx-ix+1 == goal) {
+        while(ix>-1&&iy<width&&board[ix][iy].getType()==lastPiece.getType()){ix--;iy++;}
+        while(jy>-1&&jx<width&&board[jx][jy].getType()==lastPiece.getType()){jx++;jy--;}
+        if (jx-ix-1 == goal) {
             winner = playerTurn;
             gameOver = true;
         }
@@ -144,9 +146,9 @@ public class DefaultBoard extends AbstractBoard {
         int ix,jx,iy,jy;
         ix=jx=x;
         iy=jy=y;
-        while(board[--ix][--iy].getType()==lastPiece.getType());
-        while(board[++jx][++jy].getType()==lastPiece.getType());
-        if (jx-ix+1 == goal) {
+        while(ix>-1&&iy>-1&&board[ix][iy].getType()==lastPiece.getType()){ix--;iy--;}
+        while(jx<width&&jy<width&&board[jx][jy].getType()==lastPiece.getType()){jx++;jy++;}
+        if (jx-ix-1 == goal) {
             winner = playerTurn;
             gameOver = true;
         }

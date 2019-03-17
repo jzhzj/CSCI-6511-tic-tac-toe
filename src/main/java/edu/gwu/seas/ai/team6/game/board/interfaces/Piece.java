@@ -21,10 +21,10 @@ public interface Piece {
          */
         O,
 
-//        /**
-//         * stands for blanks
-//         */
-//        Blank
+        /**
+         * stands for blanks
+         */
+        Blank
     }
 
     /**
