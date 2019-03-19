@@ -8,10 +8,10 @@ import edu.gwu.seas.ai.team6.game.board.interfaces.Piece;
 import java.util.Scanner;
 
 public class Main {
-    static DefaultBoard board = new DefaultBoard(15,5, Piece.PieceType.X);
+    static DefaultBoard board = new DefaultBoard(3,3, Piece.PieceType.X);
     static Scanner sc = new Scanner(System.in);
 
-    private static void getPlayerMove () {
+    private static void getPlayerMove () { // get opponent move, use Portal to get the coordinate
 //        System.out.print("Index of move: ");
 //
 //        int move = sc.nextInt();
@@ -23,9 +23,11 @@ public class Main {
     }
     private static void playMove () {
         if (board.getTurn() != board.getOurtype()) {
-            getPlayerMove();
+            getPlayerMove();        //get opponent move
         } else {
             Algorithm.alphaBetaPruning(board,7);
+            //board.getLastPiece().getCoordinate().getX(),board.getLastPiece().getCoordinate().getY()
+            //records our AI's move, send it to server with portal
         }
     }
     private static void printGameStatus () {
@@ -33,7 +35,7 @@ public class Main {
         System.out.println(board.getTurn().toString() + "'s turn.");
     }
 
-    private static void pringWinner(){
+    private static void printWinner(){
         Piece.PieceType winner = board.getWinner();
         if(winner == null){System.out.println("Draw");}
         else{
@@ -47,11 +49,11 @@ public class Main {
         System.out.println("move X and Y: ");
         int x = sc.nextInt();
         int y = sc.nextInt();
-        board.moveAt(x,y,true);
+        board.moveAt(x,y,false);//true: start with us; false: start with opponent
         while(board.isGameOver()!=true) {
             printGameStatus();
-            playMove();
+            playMove();// place piece on board
         }
-        pringWinner();
+        printWinner();
     }
 }
