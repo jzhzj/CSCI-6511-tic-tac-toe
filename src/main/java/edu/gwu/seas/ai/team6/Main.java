@@ -8,14 +8,18 @@ import edu.gwu.seas.ai.team6.game.board.interfaces.Piece;
 import java.util.Scanner;
 
 public class Main {
-    static DefaultBoard board = new DefaultBoard(7,5, Piece.PieceType.X);
+    static DefaultBoard board = new DefaultBoard(15,5, Piece.PieceType.X);
     static Scanner sc = new Scanner(System.in);
 
     private static void getPlayerMove () {
-        System.out.print("Index of move: ");
-
-        int move = sc.nextInt();
-        board.moveAt(move,false);
+//        System.out.print("Index of move: ");
+//
+//        int move = sc.nextInt();
+//        board.moveAt(move,false);
+        System.out.println("move X and Y: ");
+        int x = sc.nextInt();
+        int y = sc.nextInt();
+        board.moveAt(x,y,false);
     }
     private static void playMove () {
         if (board.getTurn() != board.getOurtype()) {
@@ -38,8 +42,12 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        System.out.println("starting a new game");
-        board.moveAt(15,false);
+        System.out.println("starting a new game/n");
+        System.out.println("(O) opponent begins in :/n");
+        System.out.println("move X and Y: ");
+        int x = sc.nextInt();
+        int y = sc.nextInt();
+        board.moveAt(x,y,true);
         while(board.isGameOver()!=true) {
             printGameStatus();
             playMove();

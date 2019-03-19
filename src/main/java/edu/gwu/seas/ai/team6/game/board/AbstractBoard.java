@@ -19,6 +19,20 @@ abstract class AbstractBoard implements Board {
     int moveCount;
     Boolean gameOver;
 
+    AbstractBoard(int n){
+        this.width = n;
+        this.board = new Piece[width][width];
+//        this.goal = 0;
+//        this.ourPieceType = null;
+//        this.opponentsPieceType = null;
+//        this.lastPiece = null;
+//        this.playerTurn = null;
+//        this.winner = null;
+        this.availableCell = new HashSet<>();
+//        this.moveCount = 0;
+//        this.gameOver = false;
+    }
+
     AbstractBoard(int n,int m, Piece.PieceType ourPieceType) {
         this.width = n;
         this.goal = m;

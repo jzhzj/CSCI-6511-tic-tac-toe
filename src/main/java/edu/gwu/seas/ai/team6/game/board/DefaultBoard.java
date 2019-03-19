@@ -15,6 +15,8 @@ import java.util.HashSet;
  */
 public class DefaultBoard extends AbstractBoard {
 
+    public DefaultBoard(int n){super(n);}
+
     public DefaultBoard(int n,int m, Piece.PieceType ourPieceType) {
         super(n,m, ourPieceType);
     }
@@ -155,7 +157,7 @@ public class DefaultBoard extends AbstractBoard {
     }
 
     public DefaultBoard copyBoard(){
-        DefaultBoard board = new DefaultBoard(width,goal, ourPieceType);
+        DefaultBoard board = new DefaultBoard(width);
 
         for(int i=0;i<width;i++){
             board.board[i] = this.board[i].clone();
