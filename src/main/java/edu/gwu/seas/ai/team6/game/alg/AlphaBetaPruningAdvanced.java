@@ -162,62 +162,93 @@ public class AlphaBetaPruningAdvanced {
         int x = index%board.length;
         int y = index/board.length;
         int occpupiedCount = 0;
-        if(x==0){
-            if(y==0){
-                if(isOccupied(x,y+1,board)){occpupiedCount++;}
-                if(isOccupied(x+1,y+1,board)){occpupiedCount++;}
-                if(isOccupied(x+1,y,board)){occpupiedCount++;}
-            }else if(y==width){
-                if(isOccupied(x,y-1,board)){occpupiedCount++;}
-                if(isOccupied(x+1,y-1,board)){occpupiedCount++;}
-                if(isOccupied(x+1,y,board)){occpupiedCount++;}
-            }else{
-                if(isOccupied(x,y+1,board)){occpupiedCount++;}
-                if(isOccupied(x+1,y+1,board)){occpupiedCount++;}
-                if(isOccupied(x+1,y,board)){occpupiedCount++;}
-                if(isOccupied(x+1,y-1,board)){occpupiedCount++;}
-                if(isOccupied(x,y-1,board)){occpupiedCount++;}
-            }
-        }else if(x==width){
-            if(y==0){
-                if(isOccupied(x,y+1,board)){occpupiedCount++;}
-                if(isOccupied(x-1,y+1,board)){occpupiedCount++;}
-                if(isOccupied(x-1,y,board)){occpupiedCount++;}
-            }else if(y==width){
-                if(isOccupied(x,y-1,board)){occpupiedCount++;}
-                if(isOccupied(x-1,y-1,board)){occpupiedCount++;}
-                if(isOccupied(x-1,y,board)){occpupiedCount++;}
-            }else{
-                if(isOccupied(x,y+1,board)){occpupiedCount++;}
-                if(isOccupied(x-1,y+1,board)){occpupiedCount++;}
-                if(isOccupied(x-1,y,board)){occpupiedCount++;}
-                if(isOccupied(x-1,y-1,board)){occpupiedCount++;}
-                if(isOccupied(x,y-1,board)){occpupiedCount++;}
-            }
-        }else{
-            if(y==0) {
-                if(isOccupied(x-1,y,board)){occpupiedCount++;}
-                if(isOccupied(x-1,y+1,board)){occpupiedCount++;}
-                if(isOccupied(x,y+1,board)){occpupiedCount++;}
-                if(isOccupied(x+1,y+1,board)){occpupiedCount++;}
-                if(isOccupied(x+1,y,board)){occpupiedCount++;}
-            }else if(y==width){
-                if(isOccupied(x-1,y,board)){occpupiedCount++;}
-                if(isOccupied(x-1,y-1,board)){occpupiedCount++;}
-                if(isOccupied(x,y-1,board)){occpupiedCount++;}
-                if(isOccupied(x+1,y-1,board)){occpupiedCount++;}
-                if(isOccupied(x+1,y,board)){occpupiedCount++;}
-            }else{
-                if(isOccupied(x-1,y,board)){occpupiedCount++;}
-                if(isOccupied(x-1,y+1,board)){occpupiedCount++;}
-                if(isOccupied(x,y+1,board)){occpupiedCount++;}
-                if(isOccupied(x+1,y+1,board)){occpupiedCount++;}
-                if(isOccupied(x+1,y,board)){occpupiedCount++;}
-                if(isOccupied(x+1,y-1,board)){occpupiedCount++;}
-                if(isOccupied(x,y-1,board)){occpupiedCount++;}
-                if(isOccupied(x-1,y-1,board)){occpupiedCount++;}
+        int finalLayer = 2; //depth of explore layer
+        int curLayer = finalLayer;
+        int xL = x-curLayer;
+        int xU = x+curLayer;
+        int yL = y-curLayer;
+        int yU = y+curLayer;
+
+        if(xL<0){xL = 0;}
+        if(xU>width){xU = width;}
+        if(yU>width){yU = width;}
+        if(yL<0){yL = 0;}
+        for(int i = xL;i<=xU;i++){
+            for(int j = yL;j<=yU;j++){
+                    if(isOccupied(i,j,board)){occpupiedCount++;}
             }
         }
+//
+//        if(x==0){
+//            if(y==0){
+//                //layer1
+//                if(isOccupied(x,y+1,board)){occpupiedCount++;}
+//                if(isOccupied(x+1,y+1,board)){occpupiedCount++;}
+//                if(isOccupied(x+1,y,board)){occpupiedCount++;}
+//                //layer2
+//                if(isOccupied(x,y+2,board)){occpupiedCount++;}
+//                if(isOccupied(x+1,y+2,board)){occpupiedCount++;}
+//                if(isOccupied(x+2,y+2,board)){occpupiedCount++;}
+//                if(isOccupied(x+2,y+1,board)){occpupiedCount++;}
+//                if(isOccupied(x+2,y,board)){occpupiedCount++;}
+//            }else if(y==width){
+//                //l1
+//                if(isOccupied(x,y-1,board)){occpupiedCount++;}
+//                if(isOccupied(x+1,y-1,board)){occpupiedCount++;}
+//                if(isOccupied(x+1,y,board)){occpupiedCount++;}
+//                //l2
+//                if(isOccupied(x,y-2,board)){occpupiedCount++;}
+//                if(isOccupied(x+1,y-2,board)){occpupiedCount++;}
+//                if(isOccupied(x+2,y-2,board)){occpupiedCount++;}
+//                if(isOccupied(x+2,y-1,board)){occpupiedCount++;}
+//                if(isOccupied(x+2,y,board)){occpupiedCount++;}
+//            }else{
+//                if(isOccupied(x,y+1,board)){occpupiedCount++;}
+//                if(isOccupied(x+1,y+1,board)){occpupiedCount++;}
+//                if(isOccupied(x+1,y,board)){occpupiedCount++;}
+//                if(isOccupied(x+1,y-1,board)){occpupiedCount++;}
+//                if(isOccupied(x,y-1,board)){occpupiedCount++;}
+//            }
+//        }else if(x==width){
+//            if(y==0){
+//                if(isOccupied(x,y+1,board)){occpupiedCount++;}
+//                if(isOccupied(x-1,y+1,board)){occpupiedCount++;}
+//                if(isOccupied(x-1,y,board)){occpupiedCount++;}
+//            }else if(y==width){
+//                if(isOccupied(x,y-1,board)){occpupiedCount++;}
+//                if(isOccupied(x-1,y-1,board)){occpupiedCount++;}
+//                if(isOccupied(x-1,y,board)){occpupiedCount++;}
+//            }else{
+//                if(isOccupied(x,y+1,board)){occpupiedCount++;}
+//                if(isOccupied(x-1,y+1,board)){occpupiedCount++;}
+//                if(isOccupied(x-1,y,board)){occpupiedCount++;}
+//                if(isOccupied(x-1,y-1,board)){occpupiedCount++;}
+//                if(isOccupied(x,y-1,board)){occpupiedCount++;}
+//            }
+//        }else{
+//            if(y==0) {
+//                if(isOccupied(x-1,y,board)){occpupiedCount++;}
+//                if(isOccupied(x-1,y+1,board)){occpupiedCount++;}
+//                if(isOccupied(x,y+1,board)){occpupiedCount++;}
+//                if(isOccupied(x+1,y+1,board)){occpupiedCount++;}
+//                if(isOccupied(x+1,y,board)){occpupiedCount++;}
+//            }else if(y==width){
+//                if(isOccupied(x-1,y,board)){occpupiedCount++;}
+//                if(isOccupied(x-1,y-1,board)){occpupiedCount++;}
+//                if(isOccupied(x,y-1,board)){occpupiedCount++;}
+//                if(isOccupied(x+1,y-1,board)){occpupiedCount++;}
+//                if(isOccupied(x+1,y,board)){occpupiedCount++;}
+//            }else{
+//                if(isOccupied(x-1,y,board)){occpupiedCount++;}
+//                if(isOccupied(x-1,y+1,board)){occpupiedCount++;}
+//                if(isOccupied(x,y+1,board)){occpupiedCount++;}
+//                if(isOccupied(x+1,y+1,board)){occpupiedCount++;}
+//                if(isOccupied(x+1,y,board)){occpupiedCount++;}
+//                if(isOccupied(x+1,y-1,board)){occpupiedCount++;}
+//                if(isOccupied(x,y-1,board)){occpupiedCount++;}
+//                if(isOccupied(x-1,y-1,board)){occpupiedCount++;}
+//            }
+//        }
         return occpupiedCount;
     }
 
@@ -226,44 +257,128 @@ public class AlphaBetaPruningAdvanced {
         else return false;
     }
 
+
     private static double CheckCol(int x,int y, DefaultBoard board) {
-        int i,j;
-        i=j=y;
+        int i, j;
+        i = j = y;
         Piece[][] boardinfo = board.getBoard();
         Piece.PieceType current = board.getLastPiece().getType();
-        Piece.PieceType curOpponent = (current == Piece.PieceType.X)? Piece.PieceType.O : Piece.PieceType.X;
-        while(i>-1&&boardinfo[x][i].getType()==current){i--;}
-        while(j<board.getWidth()&&boardinfo[x][j].getType()==current){j++;}
-        int continuous = j-i-1;
-        while(i>-1&&boardinfo[x][i].getType()!= curOpponent){i--;}
-        while(j<board.getWidth()&&boardinfo[x][j].getType()!=curOpponent){
+        Piece.PieceType curOpponent = (current == Piece.PieceType.X) ? Piece.PieceType.O : Piece.PieceType.X;
+        while (i > -1 && boardinfo[x][i].getType() == current) {
+            i--;
+        }
+        while (j < board.getWidth() && boardinfo[x][j].getType() == current) {
             j++;
-            if(j-i-1>board.getGoal()){break;}
         }
-        int window = j-i-1;
-        if(window<board.getGoal()){
-            return 0;
-        }else if(window==board.getGoal()){
-            return Math.pow(4,2*continuous-1);  //return 4^(2*k-1)
-        }else{
-            return Math.pow(4,2*continuous);
+        int continuous = j - i - 1;
+        int left1 = i;
+        int right1 = j;
+        while (i > -1 && boardinfo[x][i].getType() != curOpponent) {
+            i--;
         }
-    }
-
-    private static double CheckRow(int x,int y, DefaultBoard board){
-        int i,j;
-        i=j=x;
-        Piece[][] boardinfo = board.getBoard();
-        Piece.PieceType current = board.getLastPiece().getType();
-        Piece.PieceType curOpponent = (current == Piece.PieceType.X)? Piece.PieceType.O : Piece.PieceType.X;
-        while(i>-1&&boardinfo[i][y].getType()==current){i--;}
-        while(j<board.getWidth()&&boardinfo[j][y].getType()==current){j++;}
-        int continuous = j-i-1;
-        while(i>-1&&boardinfo[i][y].getType()!=curOpponent){i--;}
-        while(j<board.getWidth()&&boardinfo[j][y].getType()!=curOpponent){
+        while (j < board.getWidth() && boardinfo[x][j].getType() != curOpponent) {
             j++;
-            if(j-i-1>board.getGoal()){break;}}
-        int window = j-i-1;
+        }
+        if (j - right1 + continuous >= board.getGoal() && left1 - i + continuous >= board.getGoal()) {
+            return Math.pow(4, 2 * continuous);
+        } else if (j - i - 1 < board.getGoal()) {
+            return 0;
+        } else {
+            return Math.pow(4, 2 * continuous - 1);
+        }
+    }
+    /* int window = j-i-1;
+    if(window<board.getGoal()){
+        return 0;
+    }else if(window==board.getGoal()){
+        return Math.pow(4,2*continuous-1);  //return 4^(2*k-1)
+    }else{
+        return Math.pow(4,2*continuous);
+    }
+}
+    */
+    private static double CheckRow(int x,int y, DefaultBoard board) {
+        int i, j;
+        i = j = x;
+        Piece[][] boardinfo = board.getBoard();
+        Piece.PieceType current = board.getLastPiece().getType();
+        Piece.PieceType curOpponent = (current == Piece.PieceType.X) ? Piece.PieceType.O : Piece.PieceType.X;
+        while (i > -1 && boardinfo[i][y].getType() == current) {
+            i--;
+        }
+        while (j < board.getWidth() && boardinfo[j][y].getType() == current) {
+            j++;
+        }
+        int continuous = j - i - 1;
+        int left1 = i;
+        int right1 = j;
+        while (i > -1 && boardinfo[i][y].getType() != curOpponent) {
+            i--;
+        }
+        while (j < board.getWidth() && boardinfo[j][y].getType() != curOpponent) {
+            j++;
+        }
+        if (j - right1 + continuous >= board.getGoal() && left1 - i + continuous >= board.getGoal()) {
+            return Math.pow(4, 2 * continuous);
+        } else if (j - i - 1 < board.getGoal()) {
+            return 0;
+        } else {
+            return Math.pow(4, 2 * continuous - 1);
+        }
+    }
+
+
+    /* while(i>-1&&boardinfo[i][y].getType()!=curOpponent){i--;}
+    while(j<board.getWidth()&&boardinfo[j][y].getType()!=curOpponent){
+        j++;
+        if(j-i-1>board.getGoal()){break;}}
+    int window = j-i-1;
+    if(window<board.getGoal()){
+        return 0;
+    }else if(window==board.getGoal()){
+        return Math.pow(4,2*continuous-1);  //return 4^(2*k-1)
+    }else{
+        return Math.pow(4,2*continuous);
+    }
+}
+   */
+    private static double CheckDiagonalFromTopLeft(int x,int y, DefaultBoard board) {
+        int ix, jx, iy, jy;
+        ix = jx = x;
+        iy = jy = y;
+        Piece[][] boardinfo = board.getBoard();
+        Piece.PieceType current = board.getLastPiece().getType();
+        Piece.PieceType curOpponent = (current == Piece.PieceType.X) ? Piece.PieceType.O : Piece.PieceType.X;
+        while (ix > -1 && iy < board.getWidth() && boardinfo[ix][iy].getType() == current) {
+            ix--;
+            iy++;
+        }
+        while (jx < board.getWidth() && jy > -1 && boardinfo[jx][jy].getType() == current) {
+            jx++;
+            jy--;
+        }
+        int continuous = jx - ix - 1;
+        int left1 = ix;
+        int right1 = jx;
+        while (ix > -1 && iy < board.getWidth() && boardinfo[ix][iy].getType() != curOpponent) {
+            ix--;
+            iy++;
+        }
+        while (jx < board.getWidth() && jy > -1 && boardinfo[jx][jy].getType() != curOpponent) {
+            jx++;
+            jy--;
+        }
+        if (jx - right1 + continuous >= board.getGoal() && left1 - ix + continuous >= board.getGoal()) {
+            return Math.pow(4, 2 * continuous);
+        } else if (jx - ix - 1 < board.getGoal()) {
+            return 0;
+        } else {
+            return Math.pow(4, 2 * continuous - 1);
+        }
+    }
+
+
+        /*int window = jx-ix-1;
         if(window<board.getGoal()){
             return 0;
         }else if(window==board.getGoal()){
@@ -272,52 +387,34 @@ public class AlphaBetaPruningAdvanced {
             return Math.pow(4,2*continuous);
         }
     }
+    */
 
-    private static double CheckDiagonalFromTopLeft(int x,int y, DefaultBoard board){
-        int ix,jx,iy,jy;
-        ix=jx=x;
-        iy=jy=y;
+    private static double CheckDiagonalFromTopRight(int x,int y, DefaultBoard board) {
+        int ix, jx, iy, jy;
+        ix = jx = x;
+        iy = jy = y;
         Piece[][] boardinfo = board.getBoard();
         Piece.PieceType current = board.getLastPiece().getType();
-        Piece.PieceType curOpponent = (current == Piece.PieceType.X)? Piece.PieceType.O : Piece.PieceType.X;
-        while(ix>-1&&iy<board.getWidth()&&boardinfo[ix][iy].getType()==current){ix--;iy++;}
-        while(jx<board.getWidth()&&jy>-1&&boardinfo[jx][jy].getType()==current){jx++;jy--;}
-        int continuous = jx-ix-1;
-        while(ix>-1&&iy<board.getWidth()&&boardinfo[ix][iy].getType()!=curOpponent){ix--;iy++;}
-        while(jx<board.getWidth()&&jy>-1&&boardinfo[jx][jy].getType()!=curOpponent){
-            jx++;jy--;
-            if(jx-ix-1>board.getGoal()){break;} }
-        int window = jx-ix-1;
-        if(window<board.getGoal()){
-            return 0;
-        }else if(window==board.getGoal()){
-            return Math.pow(4,2*continuous-1);  //return 4^(2*k-1)
-        }else{
-            return Math.pow(4,2*continuous);
+        Piece.PieceType curOpponent = (current == Piece.PieceType.X) ? Piece.PieceType.O : Piece.PieceType.X;
+        while (ix > -1 && iy > -1 && boardinfo[ix][iy].getType() == current) {
+            ix--;
+            iy--;
         }
-    }
-
-    private static double CheckDiagonalFromTopRight(int x,int y, DefaultBoard board){
-        int ix,jx,iy,jy;
-        ix=jx=x;
-        iy=jy=y;
-        Piece[][] boardinfo = board.getBoard();
-        Piece.PieceType current = board.getLastPiece().getType();
-        Piece.PieceType curOpponent = (current == Piece.PieceType.X)? Piece.PieceType.O : Piece.PieceType.X;
-        while(ix>-1&&iy>-1&&boardinfo[ix][iy].getType()==current){ix--;iy--;}
-        while(jx<board.getWidth()&&jy<board.getWidth()&&boardinfo[jx][jy].getType()==current){jx++;jy++;}
-        int continuous = jx-ix-1;
+        while (jx < board.getWidth() && jy < board.getWidth() && boardinfo[jx][jy].getType() == current) {
+            jx++;
+            jy++;
+        }
+        int continuous = jx - ix - 1;
+        int left1 = ix;
+        int right1 = jx;
         while(ix>-1&&iy>-1&&boardinfo[ix][iy].getType()!=curOpponent){ix--;iy--;}
-        while(jx<board.getWidth()&&jy<board.getWidth()&&boardinfo[jx][jy].getType()!=curOpponent){
-            jx++;jy++;
-            if(jx-ix-1>board.getGoal()){break;} }
-        int window = jx-ix-1;
-        if(window<board.getGoal()){
+        while(jx<board.getWidth()&&jy<board.getWidth()&&boardinfo[jx][jy].getType()==current){jx++;jy++;}
+        if (jx - right1 + continuous >= board.getGoal() && left1 - ix + continuous >= board.getGoal()) {
+            return Math.pow(4, 2 * continuous);
+        } else if (jx - ix - 1 < board.getGoal()) {
             return 0;
-        }else if(window==board.getGoal()){
-            return Math.pow(4,2*continuous-1);  //return 4^(2*k-1)
-        }else{
-            return Math.pow(4,2*continuous);
+        } else {
+            return Math.pow(4, 2 * continuous - 1);
         }
     }
 
