@@ -44,8 +44,8 @@ public class DefaultGame extends AbstractGame {
         // create a blank board;
         DefaultBoard board = new DefaultBoard(n, m, ourPieceType);
         if (board.getOurtype() == Piece.PieceType.O) {
-            portal.moveAt(n / 2, n / 2, gameId);
-            board.moveAt(n / 2, n / 2, true);
+            portal.moveAt(n / 2 + 1, n / 2, gameId);
+            board.moveAt(n / 2 + 1, n / 2, true);
         }
         while (!board.isGameOver()) {
             Move lastMove = portal.getLastMove(gameId);
@@ -58,12 +58,13 @@ public class DefaultGame extends AbstractGame {
                 lastMove = portal.getLastMove(gameId);
             }
             board.moveAt(lastMove.getCoordinate(), false);
+            if (board.isGameOver()) {
+                break;
+            }
             Algorithm.alphaBetaPruningAdvanced(board, 5);
             //records our AI's move, send it to server with portal
             //return AI move to server
-            if (!board.isGameOver()) {
-                portal.moveAt(board.getLastPiece().getCoordinate(), gameId);
-            }
+            portal.moveAt(board.getLastPiece().getCoordinate(), gameId);
         }
         System.out.println("\nGame Over\n" + "winner is " + board.getWinner());
     }
