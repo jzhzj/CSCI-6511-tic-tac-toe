@@ -1,59 +1,67 @@
 package edu.gwu.seas.ai.team6;
 
 import edu.gwu.seas.ai.team6.game.DefaultGame;
-import edu.gwu.seas.ai.team6.game.alg.Algorithm;
-import edu.gwu.seas.ai.team6.game.board.DefaultBoard;
 import edu.gwu.seas.ai.team6.game.board.interfaces.Piece;
-
-import java.util.Scanner;
+import edu.gwu.seas.ai.team6.io.GameServerPortal;
+import edu.gwu.seas.ai.team6.io.Portal;
+import edu.gwu.seas.ai.team6.io.util.BoardInfo;
 
 public class Main {
-    static DefaultBoard board = new DefaultBoard(3,3, Piece.PieceType.X);
-    static Scanner sc = new Scanner(System.in);
-
-    private static void getPlayerMove () { // get opponent move, use Portal to get the coordinate
-//        System.out.print("Index of move: ");
-//
-//        int move = sc.nextInt();
-//        board.moveAt(move,false);
-        System.out.println("move X and Y: ");
-        int x = sc.nextInt();
-        int y = sc.nextInt();
-        board.moveAt(x,y,false);
-    }
-    private static void playMove () {
-        if (board.getTurn() != board.getOurtype()) {
-            getPlayerMove();        //get opponent move
-        } else {
-            Algorithm.alphaBetaPruning(board,7);
-            //board.getLastPiece().getCoordinate().getX(),board.getLastPiece().getCoordinate().getY()
-            //records our AI's move, send it to server with portal
-        }
-    }
-    private static void printGameStatus () {
-        System.out.println("\n" + board + "\n");
-        System.out.println(board.getTurn().toString() + "'s turn.");
-    }
-
-    private static void printWinner(){
-        Piece.PieceType winner = board.getWinner();
-        if(winner == null){System.out.println("Draw");}
-        else{
-            System.out.println("Player "+ winner.toString()+" wins");
-        }
-    }
+    private static String gameId;
+    private static String opponentId;
 
     public static void main(String[] args) {
-        System.out.println("starting a new game/n");
-        System.out.println("(O) opponent begins in :/n");
-        System.out.println("move X and Y: ");
-        int x = sc.nextInt();
-        int y = sc.nextInt();
-        board.moveAt(x,y,false);//true: start with us; false: start with opponent
-        while(board.isGameOver()!=true) {
-            printGameStatus();
-            playMove();// place piece on board
+        Portal portal = new GameServerPortal();
+        Piece.PieceType pieceType;
+        if (checkArgs(args)) {
+            gameId = portal.createGame(opponentId);
+            pieceType = Piece.PieceType.O;
+        } else {
+            pieceType = Piece.PieceType.X;
         }
-        printWinner();
+        BoardInfo info = portal.getBoardString(gameId);
+        DefaultGame game = DefaultGame.createGame(opponentId, portal, info.getBoardSize(), info.getTarget(), pieceType, gameId);
+        game.run();
+    }
+
+    private static boolean checkArgs(String[] args) {
+        if (args.length == 1) {
+            if (args[0].contains("opponentId") && args[0].contains("=")) {
+                if (args[0].contains("=")) {
+                    gameId = getValue(args[0]);
+                } else {
+                    showUsage();
+                }
+            } else {
+                showUsage();
+            }
+        } else if (args.length == 2) {
+            String tmp = args[0] + args[1];
+            if (tmp.contains("gameId") && tmp.contains("opponentId") && args[0].contains("=") && args[1].contains("=")) {
+                if (args[0].contains("gameId")) {
+                    gameId = getValue(args[0]);
+                    opponentId = getValue(args[1]);
+                } else {
+                    opponentId = getValue(args[0]);
+                    gameId = getValue(args[1]);
+                }
+            } else {
+                showUsage();
+            }
+        } else {
+            showUsage();
+        }
+
+        return args.length == 1;
+    }
+
+    private static String getValue(String line) {
+        return line.split("=")[1];
+    }
+
+    private static void showUsage() {
+        System.out.println("You can only input 1 or 2 parameters. \n\nIf you input 1 parameter, it must be opponent id, \nwhich indicating your team is the initializer of a new game. \n\nIf you input 2 parameters, one of them must be game id and the other must be opponent id, \nwhich suggesting the opponent team has already created the game on the server.\n\n");
+        System.out.println("i.e. \njava -jar <your jar file> --gameId=1024 --opponentId=10086\n\nCase sensitive");
+        System.exit(1);
     }
 }
