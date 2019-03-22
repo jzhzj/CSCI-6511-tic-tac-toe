@@ -60,6 +60,7 @@ public class DefaultGame extends AbstractGame {
         }
         if (board.getOurtype() == Piece.PieceType.O) {
             portal.moveAt(n / 2, n / 2, gameId);
+            board.moveAt(n / 2, n / 2, true);
         }
         while (!board.isGameOver()) {
             Move lastMove = portal.getLastMove(gameId);
