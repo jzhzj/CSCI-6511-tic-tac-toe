@@ -55,6 +55,9 @@ public class AlphaBetaPruning {
         int index;
         int evalValue;
     }
+
+
+
     private static int getMax (Piece.PieceType player, DefaultBoard board,double alpha, double beta, int currentDepth) {
         int indexOfBestMove = -1;
 

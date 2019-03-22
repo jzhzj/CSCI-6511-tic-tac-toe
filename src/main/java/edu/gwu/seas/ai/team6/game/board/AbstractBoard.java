@@ -19,41 +19,28 @@ abstract class AbstractBoard implements Board {
     int moveCount;
     Boolean gameOver;
 
-    AbstractBoard(int n){
+    AbstractBoard(int n) {
         this.width = n;
         this.board = new Piece[width][width];
-//        this.goal = 0;
-//        this.ourPieceType = null;
-//        this.opponentsPieceType = null;
-//        this.lastPiece = null;
-//        this.playerTurn = null;
-//        this.winner = null;
         this.availableCell = new HashSet<>();
-//        this.moveCount = 0;
-//        this.gameOver = false;
     }
 
-    AbstractBoard(int n,int m, Piece.PieceType ourPieceType) {
+    AbstractBoard(int n, int m, Piece.PieceType ourPieceType) {
         this.width = n;
         this.goal = m;
-//        this.board = new Piece[width][width];
         this.ourPieceType = ourPieceType;
         this.opponentsPieceType = ourPieceType == Piece.PieceType.O ? Piece.PieceType.X : Piece.PieceType.O;
-//        this.playerTurn = ourPieceType;
-//        this.gameOver = false;
-//        this.winner = null;
-//        this.availableCell = new HashSet<>();
         reset();
     }
 
     /**
      * reset the board
      */
-    private void reset(){
+    private void reset() {
         this.board = new Piece[width][width];
-        for(int i=0;i<width;i++){
-            for(int j=0;j<width;j++){
-                Piece piece = new DefaultPiece(i,j, Piece.PieceType.Blank);
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < width; j++) {
+                Piece piece = new DefaultPiece(i, j, Piece.PieceType.Blank);
                 this.board[i][j] = piece;
 
             }
@@ -64,7 +51,7 @@ abstract class AbstractBoard implements Board {
         this.winner = null;
         this.availableCell = new HashSet<>();
         this.availableCell.clear();
-        for (int i = 0; i < width*width; i++) {
+        for (int i = 0; i < width * width; i++) {
             this.availableCell.add(i);
         }
     }

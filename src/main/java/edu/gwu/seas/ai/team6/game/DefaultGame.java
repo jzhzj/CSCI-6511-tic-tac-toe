@@ -1,10 +1,11 @@
 package edu.gwu.seas.ai.team6.game;
 
 import edu.gwu.seas.ai.team6.game.alg.Algorithm;
-import edu.gwu.seas.ai.team6.game.alg.MiniMax;
 import edu.gwu.seas.ai.team6.game.board.DefaultBoard;
 import edu.gwu.seas.ai.team6.game.board.interfaces.Piece;
 import edu.gwu.seas.ai.team6.io.Portal;
+import edu.gwu.seas.ai.team6.io.util.BoardInfo;
+import edu.gwu.seas.ai.team6.io.util.Move;
 
 /**
  * Default implementation of {@link Game}.
@@ -56,10 +57,36 @@ public class DefaultGame extends AbstractGame {
 
     @Override
     public void run() {
-        portal.createGame(opponentId);
-        portal.getBoardString(gameId);
-        DefaultBoard board = new DefaultBoard(n,m,ourPieceType);
-        Algorithm.miniMax(board,7);
-        portal.moveAt(board.getLastPiece().getCoordinate(),gameId);
+        DefaultBoard board = new DefaultBoard(n, m, ourPieceType);// create a blank board;
+        //fill the board with server boardinfo
+        BoardInfo boardString = portal.getBoardString(gameId);
+        String info = boardString.getOutput().replace("\n", "");
+        for (int i = 0; i < n * n; i++) {
+            String type = info.substring(i);
+            if (!type.equals("Blank")) {
+                Piece.PieceType type1 = Piece.PieceType.O;
+                if (type.equals("X")) {
+                    type1 = Piece.PieceType.X;
+                }
+                boolean curType = type1 == ourPieceType;
+                board.moveAt(i, curType);
+            }
+        }
+        while (!board.isGameOver()) {
+            Move lastMove = portal.getLastMove(gameId);
+            while (lastMove == null && lastMove.getPieceType() == ourPieceType) {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                lastMove = portal.getLastMove(gameId);
+            }
+            board.moveAt(lastMove.getCoordinate(), false);
+            Algorithm.alphaBetaPruningAdvanced(board, 5);
+            //records our AI's move, send it to server with portal
+            portal.moveAt(board.getLastPiece().getCoordinate(), gameId);//return AI move to server
+        }
     }
+
 }

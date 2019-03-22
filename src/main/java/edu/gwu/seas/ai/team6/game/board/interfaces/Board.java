@@ -16,6 +16,7 @@ public interface Board {
      *                false: opponent's move
      */
     void moveAt(int x, int y, boolean ourMove);
+
     /**
      * mark a space with a piece
      *
