@@ -23,21 +23,6 @@ public class DefaultGame extends AbstractGame {
     }
 
     /**
-     * Creates a new game if we are the initializer of the game.
-     *
-     * @param opponentId   the id of the opponent team
-     * @param portal       the portal used for communication
-     * @param n            the size of the board
-     * @param m            the goal
-     * @param ourPieceType the type of our piece
-     * @return the new game or null if failed to create a game
-     */
-    public static DefaultGame createGame(String opponentId, Portal portal, int n, int m, Piece.PieceType ourPieceType) {
-        String gameId = portal.createGame(opponentId);
-        return createGame(opponentId, portal, n, m, ourPieceType, gameId);
-    }
-
-    /**
      * Creates a new game if other team has already post a game to the game server.
      *
      * @param opponentId   the id of the opponent team
@@ -64,9 +49,9 @@ public class DefaultGame extends AbstractGame {
         String info = boardString.getOutput().replace("\n", "");
         for (int i = 0; i < n * n; i++) {
             String type = info.substring(i, i + 1);
-            if (!type.equals("-")) {
+            if (!"-".equals(type)) {
                 Piece.PieceType type1 = Piece.PieceType.O;
-                if (type.equals("X")) {
+                if ("X".equals(type)) {
                     type1 = Piece.PieceType.X;
                 }
                 boolean curType = type1 == ourPieceType;

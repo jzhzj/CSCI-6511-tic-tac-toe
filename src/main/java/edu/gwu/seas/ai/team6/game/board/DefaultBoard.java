@@ -60,10 +60,10 @@ public class DefaultBoard extends AbstractBoard {
         }
 
         //Check for a winner.
-        CheckCol(x, y);
-        CheckRow(x, y);
-        CheckDiagonalFromTopLeft(x, y);
-        CheckDiagonalFromTopRight(x, y);
+        checkCol(x, y);
+        checkRow(x, y);
+        checkDiagonalFromTopLeft(x, y);
+        checkDiagonalFromTopRight(x, y);
 
         playerTurn = isOurMove ? opponentsPieceType : ourPieceType;
     }
@@ -122,7 +122,7 @@ public class DefaultBoard extends AbstractBoard {
     }
 
 
-    private void CheckCol(int x, int y) {
+    private void checkCol(int x, int y) {
         int i, j;
         i = j = y;
         while (i > -1 && board[x][i].getType() == lastPiece.getType()) {
@@ -137,7 +137,7 @@ public class DefaultBoard extends AbstractBoard {
         }
     }
 
-    private void CheckRow(int x, int y) {
+    private void checkRow(int x, int y) {
         int i, j;
         i = j = x;
         while (i > -1 && board[i][y].getType() == lastPiece.getType()) {
@@ -152,7 +152,7 @@ public class DefaultBoard extends AbstractBoard {
         }
     }
 
-    private void CheckDiagonalFromTopLeft(int x, int y) {
+    private void checkDiagonalFromTopLeft(int x, int y) {
         int ix, jx, iy, jy;
         ix = jx = x;
         iy = jy = y;
@@ -170,7 +170,7 @@ public class DefaultBoard extends AbstractBoard {
         }
     }
 
-    private void CheckDiagonalFromTopRight(int x, int y) {
+    private void checkDiagonalFromTopRight(int x, int y) {
         int ix, jx, iy, jy;
         ix = jx = x;
         iy = jy = y;

@@ -7,8 +7,15 @@ import java.util.HashSet;
 
 abstract class AbstractBoard implements Board {
     Piece[][] board;
-    int width;//n
-    int goal;//m
+    /**
+     * n
+     */
+    int width;
+    /**
+     * m
+     */
+    int goal;
+
     Piece.PieceType ourPieceType;
     Piece.PieceType opponentsPieceType;
     Piece lastPiece;
