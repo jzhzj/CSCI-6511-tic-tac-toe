@@ -32,7 +32,9 @@ public class AlphaBetaPruningAdvanced {
         AlphaBetaPruningAdvanced.MaxDepth = MaxDepth;
         movePath = new ArrayList<>((int) MaxDepth);
         alphaBeta(board.getTurn(), board, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 0);
-        System.out.println("AI plays on (" + board.getLastPiece().getCoordinate().getX() + "," + board.getLastPiece().getCoordinate().getY() + ")");
+        if (!board.isGameOver()) {
+            System.out.println("AI plays on (" + board.getLastPiece().getCoordinate().getX() + "," + board.getLastPiece().getCoordinate().getY() + ")");
+        }
     }
 
     /**

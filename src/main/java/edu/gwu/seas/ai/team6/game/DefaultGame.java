@@ -4,7 +4,6 @@ import edu.gwu.seas.ai.team6.game.alg.Algorithm;
 import edu.gwu.seas.ai.team6.game.board.DefaultBoard;
 import edu.gwu.seas.ai.team6.game.board.interfaces.Piece;
 import edu.gwu.seas.ai.team6.io.Portal;
-import edu.gwu.seas.ai.team6.io.util.BoardInfo;
 import edu.gwu.seas.ai.team6.io.util.Move;
 
 /**
@@ -44,20 +43,6 @@ public class DefaultGame extends AbstractGame {
     public void run() {
         // create a blank board;
         DefaultBoard board = new DefaultBoard(n, m, ourPieceType);
-        //fill the board with server boardinfo
-        BoardInfo boardString = portal.getBoardString(gameId);
-        String info = boardString.getOutput().replace("\n", "");
-        for (int i = 0; i < n * n; i++) {
-            String type = info.substring(i, i + 1);
-            if (!"-".equals(type)) {
-                Piece.PieceType type1 = Piece.PieceType.O;
-                if ("X".equals(type)) {
-                    type1 = Piece.PieceType.X;
-                }
-                boolean curType = type1 == ourPieceType;
-                board.moveAt(i, curType);
-            }
-        }
         if (board.getOurtype() == Piece.PieceType.O) {
             portal.moveAt(n / 2, n / 2, gameId);
             board.moveAt(n / 2, n / 2, true);
@@ -76,7 +61,10 @@ public class DefaultGame extends AbstractGame {
             Algorithm.alphaBetaPruningAdvanced(board, 5);
             //records our AI's move, send it to server with portal
             //return AI move to server
-            portal.moveAt(board.getLastPiece().getCoordinate(), gameId);
+            if (!board.isGameOver()) {
+                portal.moveAt(board.getLastPiece().getCoordinate(), gameId);
+            }
         }
+        System.out.println("\nGame Over\n" + "winner is " + board.getWinner());
     }
 }
