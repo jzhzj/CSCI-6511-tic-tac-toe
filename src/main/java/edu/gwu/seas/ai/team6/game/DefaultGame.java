@@ -58,6 +58,7 @@ public class DefaultGame extends AbstractGame {
                 lastMove = portal.getLastMove(gameId);
             }
             board.moveAt(lastMove.getCoordinate(), false);
+            System.out.println("Opponent plays on (" + board.getLastPiece().getCoordinate().getX() + "," + board.getLastPiece().getCoordinate().getY() + ")");
             if (board.isGameOver()) {
                 break;
             }

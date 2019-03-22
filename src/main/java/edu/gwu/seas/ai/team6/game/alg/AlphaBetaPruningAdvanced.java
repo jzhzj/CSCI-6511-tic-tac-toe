@@ -30,11 +30,9 @@ public class AlphaBetaPruningAdvanced {
         }
 
         AlphaBetaPruningAdvanced.MaxDepth = MaxDepth;
-        movePath = new ArrayList<>((int) MaxDepth);
+        movePath = new ArrayList<>(MaxDepth);
         alphaBeta(board.getTurn(), board, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 0);
-        if (!board.isGameOver()) {
-            System.out.println("AI plays on (" + board.getLastPiece().getCoordinate().getX() + "," + board.getLastPiece().getCoordinate().getY() + ")");
-        }
+        System.out.println("AI plays on (" + board.getLastPiece().getCoordinate().getX() + "," + board.getLastPiece().getCoordinate().getY() + ")");
     }
 
     /**
@@ -60,15 +58,15 @@ public class AlphaBetaPruningAdvanced {
         }
     }
 
-    static class posEval {
-        posEval(int index, int evalValue) {
-            this.index = index;
-            this.evalValue = evalValue;
-        }
-
-        int index;
-        int evalValue;
+static class posEval {
+    posEval(int index, int evalValue) {
+        this.index = index;
+        this.evalValue = evalValue;
     }
+
+    int index;
+    int evalValue;
+}
 
     private static int getMax(Piece.PieceType player, DefaultBoard board, double alpha, double beta, int currentDepth) {
         int indexOfBestMove = -1;
