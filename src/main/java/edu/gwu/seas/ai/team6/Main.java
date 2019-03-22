@@ -14,6 +14,7 @@ public class Main {
         Portal portal = new GameServerPortal();
         Piece.PieceType pieceType;
         if (checkArgs(args)) {
+            System.out.println(opponentId);
             gameId = portal.createGame(opponentId);
             pieceType = Piece.PieceType.O;
         } else {
@@ -27,11 +28,7 @@ public class Main {
     private static boolean checkArgs(String[] args) {
         if (args.length == 1) {
             if (args[0].contains("opponentId") && args[0].contains("=")) {
-                if (args[0].contains("=")) {
-                    gameId = getValue(args[0]);
-                } else {
-                    showUsage();
-                }
+                opponentId = getValue(args[0]);
             } else {
                 showUsage();
             }
