@@ -165,16 +165,6 @@ public class GameServerPortal extends AbstractPortal {
         return getBoardInfo(PARAMS_TYPE_BOARD_STRING, gameId);
     }
 
-    /**
-     * @see Portal#getBoardMap(String)
-     */
-    @Override
-    public BoardInfo getBoardMap(String gameId) {
-        log("Requesting the board map...");
-
-        return getBoardInfo(PARAMS_TYPE_BOARD_MAP, gameId);
-    }
-
     private BoardInfo getBoardInfo(String type, String gameId) {
         Request request = createGetRequest(new ParamEntry("type", type), new ParamEntry("gameId", gameId));
         String json = sendRequest(request, "{", 0, String::indexOf, "}", 0, String::lastIndexOf);

@@ -26,4 +26,9 @@ public class BoardInfo {
     public int getTarget() {
         return target;
     }
+
+    public int getBoardSize() {
+        String line = output.split("\n")[0];
+        return line.length();
+    }
 }

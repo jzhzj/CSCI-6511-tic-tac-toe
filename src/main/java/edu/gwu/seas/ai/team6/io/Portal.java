@@ -67,14 +67,4 @@ public interface Portal {
      * @return String representing the board
      */
     BoardInfo getBoardString(String gameId);
-
-    /**
-     * Gets a json String representing the board.
-     * e.g.
-     * "{\"11,15\":\"O\",\"11,16\":\"X\",\"11,17\":\"O\"}"
-     *
-     * @param gameId game id
-     * @return a string representing the board
-     */
-    BoardInfo getBoardMap(String gameId);
 }
