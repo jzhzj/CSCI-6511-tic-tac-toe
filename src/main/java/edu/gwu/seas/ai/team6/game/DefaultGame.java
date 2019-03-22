@@ -57,7 +57,8 @@ public class DefaultGame extends AbstractGame {
 
     @Override
     public void run() {
-        DefaultBoard board = new DefaultBoard(n, m, ourPieceType);// create a blank board;
+        // create a blank board;
+        DefaultBoard board = new DefaultBoard(n, m, ourPieceType);
         //fill the board with server boardinfo
         BoardInfo boardString = portal.getBoardString(gameId);
         String info = boardString.getOutput().replace("\n", "");
@@ -74,7 +75,7 @@ public class DefaultGame extends AbstractGame {
         }
         while (!board.isGameOver()) {
             Move lastMove = portal.getLastMove(gameId);
-            while (lastMove == null && lastMove.getPieceType() == ourPieceType) {
+            while (lastMove == null || lastMove.getPieceType() == ourPieceType) {
                 try {
                     Thread.sleep(5000);
                 } catch (InterruptedException e) {
@@ -85,7 +86,8 @@ public class DefaultGame extends AbstractGame {
             board.moveAt(lastMove.getCoordinate(), false);
             Algorithm.alphaBetaPruningAdvanced(board, 5);
             //records our AI's move, send it to server with portal
-            portal.moveAt(board.getLastPiece().getCoordinate(), gameId);//return AI move to server
+            //return AI move to server
+            portal.moveAt(board.getLastPiece().getCoordinate(), gameId);
         }
     }
 
