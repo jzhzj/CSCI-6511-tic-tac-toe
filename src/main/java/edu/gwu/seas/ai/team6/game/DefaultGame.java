@@ -63,8 +63,8 @@ public class DefaultGame extends AbstractGame {
         BoardInfo boardString = portal.getBoardString(gameId);
         String info = boardString.getOutput().replace("\n", "");
         for (int i = 0; i < n * n; i++) {
-            String type = info.substring(i);
-            if (!type.equals("Blank")) {
+            String type = info.substring(i,i+1);
+            if (!type.equals("-")) {
                 Piece.PieceType type1 = Piece.PieceType.O;
                 if (type.equals("X")) {
                     type1 = Piece.PieceType.X;
