@@ -14,8 +14,9 @@ public class Main {
         Portal portal = new GameServerPortal();
         Piece.PieceType pieceType;
         if (checkArgs(args)) {
-            System.out.println(opponentId);
+            System.out.println("opppnentId: " + opponentId);
             gameId = portal.createGame(opponentId);
+            System.out.println("gameId: " + gameId);
             pieceType = Piece.PieceType.O;
         } else {
             pieceType = Piece.PieceType.X;

@@ -63,7 +63,7 @@ public class DefaultGame extends AbstractGame {
         BoardInfo boardString = portal.getBoardString(gameId);
         String info = boardString.getOutput().replace("\n", "");
         for (int i = 0; i < n * n; i++) {
-            String type = info.substring(i,i+1);
+            String type = info.substring(i, i + 1);
             if (!type.equals("-")) {
                 Piece.PieceType type1 = Piece.PieceType.O;
                 if (type.equals("X")) {
@@ -72,6 +72,9 @@ public class DefaultGame extends AbstractGame {
                 boolean curType = type1 == ourPieceType;
                 board.moveAt(i, curType);
             }
+        }
+        if (board.getOurtype() == Piece.PieceType.O) {
+            portal.moveAt(n / 2, n / 2, gameId);
         }
         while (!board.isGameOver()) {
             Move lastMove = portal.getLastMove(gameId);
@@ -90,5 +93,4 @@ public class DefaultGame extends AbstractGame {
             portal.moveAt(board.getLastPiece().getCoordinate(), gameId);
         }
     }
-
 }
