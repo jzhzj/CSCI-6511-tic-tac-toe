@@ -1,6 +1,7 @@
 package edu.gwu.seas.ai.team6.io;
 
 import edu.gwu.seas.ai.team6.game.board.interfaces.Coordinate;
+import edu.gwu.seas.ai.team6.io.util.BoardInfo;
 import edu.gwu.seas.ai.team6.io.util.Move;
 
 import java.util.List;
@@ -65,7 +66,7 @@ public interface Portal {
      * @param gameId game id
      * @return String representing the board
      */
-    String getBoardString(String gameId);
+    BoardInfo getBoardString(String gameId);
 
     /**
      * Gets a json String representing the board.
@@ -75,5 +76,5 @@ public interface Portal {
      * @param gameId game id
      * @return a string representing the board
      */
-    String getBoardMap(String gameId);
+    BoardInfo getBoardMap(String gameId);
 }

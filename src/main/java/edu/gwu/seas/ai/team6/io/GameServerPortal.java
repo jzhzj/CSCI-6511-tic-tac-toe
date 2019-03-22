@@ -159,7 +159,7 @@ public class GameServerPortal extends AbstractPortal {
      * @see Portal#getBoardString(String)
      */
     @Override
-    public String getBoardString(String gameId) {
+    public BoardInfo getBoardString(String gameId) {
         log("Requesting the board string...");
 
         return getBoardInfo(PARAMS_TYPE_BOARD_STRING, gameId);
@@ -169,13 +169,13 @@ public class GameServerPortal extends AbstractPortal {
      * @see Portal#getBoardMap(String)
      */
     @Override
-    public String getBoardMap(String gameId) {
+    public BoardInfo getBoardMap(String gameId) {
         log("Requesting the board map...");
 
         return getBoardInfo(PARAMS_TYPE_BOARD_MAP, gameId);
     }
 
-    private String getBoardInfo(String type, String gameId) {
+    private BoardInfo getBoardInfo(String type, String gameId) {
         Request request = createGetRequest(new ParamEntry("type", type), new ParamEntry("gameId", gameId));
         String json = sendRequest(request, "{", 0, String::indexOf, "}", 0, String::lastIndexOf);
 
@@ -183,9 +183,7 @@ public class GameServerPortal extends AbstractPortal {
             return null;
         }
 
-        BoardInfo boardInfo = gson.fromJson(json, BoardInfo.class);
-
-        return boardInfo.getOutput();
+        return gson.fromJson(json, BoardInfo.class);
     }
 
     private Request createPostRequest(FormBody body) {

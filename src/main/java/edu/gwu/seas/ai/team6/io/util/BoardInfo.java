@@ -9,6 +9,7 @@ package edu.gwu.seas.ai.team6.io.util;
  */
 public class BoardInfo {
     private String output;
+    private int target;
     private String code;
 
     private BoardInfo() {
@@ -20,5 +21,9 @@ public class BoardInfo {
 
     public String getCode() {
         return code;
+    }
+
+    public int getTarget() {
+        return target;
     }
 }
