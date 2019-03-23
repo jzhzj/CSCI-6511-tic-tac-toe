@@ -58,15 +58,15 @@ public class AlphaBetaPruningAdvanced {
         }
     }
 
-static class posEval {
-    posEval(int index, int evalValue) {
-        this.index = index;
-        this.evalValue = evalValue;
-    }
+    static class posEval {
+        posEval(int index, int evalValue) {
+            this.index = index;
+            this.evalValue = evalValue;
+        }
 
-    int index;
-    int evalValue;
-}
+        int index;
+        int evalValue;
+    }
 
     private static int getMax(Piece.PieceType player, DefaultBoard board, double alpha, double beta, int currentDepth) {
         int indexOfBestMove = -1;
