@@ -56,6 +56,6 @@ $ mvn test
 
 ## Contacts
 - [Qi Jiuzhi](mailto:qijiuzhi@gwu.edu)
-- [Zheng Zimu]()
+- [Zheng Zimu](mailto:zhengzimu2017@gwu.edu)
 - [Yang Runlai](mailto:runlaiyang@gwu.edu)
-- [Sun Xingwei]()
+- [Sun Xingwei](mailto:xsun51@gwu.edu)
