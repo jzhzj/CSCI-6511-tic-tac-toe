@@ -2,6 +2,12 @@ package edu.gwu.seas.ai.team6.util;
 
 import java.util.ResourceBundle;
 
+/**
+ * This class is used to read properties from prop.properties.
+ *
+ * @author qijiuzhi
+ * @date 2019-03-04
+ */
 public class ProjProps {
     static {
         ResourceBundle rb = ResourceBundle.getBundle("prop");
@@ -15,11 +21,14 @@ public class ProjProps {
         BODY_TYPE_GAME = rb.getString("BODY_TYPE_GAME");
         BODY_TYPE_MOVE = rb.getString("BODY_TYPE_MOVE");
         BODY_GAME_TYPE_TTT = rb.getString("BODY_GAME_TYPE_TTT");
-        PRAMS_TYPE_TEAM = rb.getString("PRAMS_TYPE_TEAM");
-        PRAMS_TYPE_MOVES = rb.getString("PRAMS_TYPE_MOVES");
-        PRAMS_TYPE_BOARD_STRING = rb.getString("PRAMS_TYPE_BOARD_STRING");
-        PRAMS_TYPE_BOARD_MAP = rb.getString("PRAMS_TYPE_BOARD_MAP");
+        PARAMS_TYPE_TEAM = rb.getString("PARAMS_TYPE_TEAM");
+        PARAMS_TYPE_MOVES = rb.getString("PARAMS_TYPE_MOVES");
+        PARAMS_TYPE_BOARD_STRING = rb.getString("PARAMS_TYPE_BOARD_STRING");
+        PARAMS_TYPE_BOARD_MAP = rb.getString("PARAMS_TYPE_BOARD_MAP");
+        CODE_OK = rb.getString("CODE_OK");
+        CODE_FAIL = rb.getString("CODE_FAIL");
         TEAM_ID = rb.getString("TEAM_ID");
+        TEST_FLAG = Boolean.valueOf(rb.getString("TEST_FLAG"));
     }
 
     public static final String SERVER_ADDR;
@@ -31,9 +40,14 @@ public class ProjProps {
     public static final String BODY_TYPE_GAME;
     public static final String BODY_TYPE_MOVE;
     public static final String BODY_GAME_TYPE_TTT;
-    public static final String PRAMS_TYPE_TEAM;
-    public static final String PRAMS_TYPE_MOVES;
-    public static final String PRAMS_TYPE_BOARD_STRING;
-    public static final String PRAMS_TYPE_BOARD_MAP;
+    public static final String PARAMS_TYPE_TEAM;
+    public static final String PARAMS_TYPE_MOVES;
+    public static final String PARAMS_TYPE_BOARD_STRING;
+    public static final String PARAMS_TYPE_BOARD_MAP;
+    public static final String CODE_OK;
+    public static final String CODE_FAIL;
     public static final String TEAM_ID;
+
+    public static final boolean TEST_FLAG;
+    public static final String TEST_STR = "[TEST LOG] ";
 }
