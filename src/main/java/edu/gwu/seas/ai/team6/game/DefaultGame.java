@@ -44,8 +44,9 @@ public class DefaultGame extends AbstractGame {
         // create a blank board;
         DefaultBoard board = new DefaultBoard(n, m, ourPieceType);
         if (board.getOurtype() == Piece.PieceType.O) {
-            portal.moveAt(n / 2 + 1, n / 2, gameId);
-            board.moveAt(n / 2 + 1, n / 2, true);
+            portal.moveAt(n / 2, n / 2, gameId);
+            board.moveAt(n / 2, n / 2, true);
+            System.out.println("AI begins on (" + board.getLastPiece().getCoordinate().getX() + "," + board.getLastPiece().getCoordinate().getY() + ")");
         }
         while (!board.isGameOver()) {
             Move lastMove = portal.getLastMove(gameId);
