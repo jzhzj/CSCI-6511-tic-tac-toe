@@ -62,6 +62,11 @@ public class GameServerPortal extends AbstractPortal {
      */
     @Override
     public String createGame(String opponentTeamId) {
+        return createGame(opponentTeamId, 12, 6);
+    }
+
+    @Override
+    public String createGame(String opponentTeamId, int boardSize, int target) {
         log("Sending create game request to the game server...");
 
         // create a form body
@@ -69,7 +74,10 @@ public class GameServerPortal extends AbstractPortal {
                 add("teamId1", TEAM_ID).
                 add("teamId2", opponentTeamId).
                 add("type", BODY_TYPE_GAME).
-                add("gameType", BODY_GAME_TYPE_TTT).build();
+                add("gameType", BODY_GAME_TYPE_TTT).
+                add("boardSize", boardSize + "").
+                add("target", target + "").
+                build();
 
         // generate a new POST request
         Request postRequest = createPostRequest(body);

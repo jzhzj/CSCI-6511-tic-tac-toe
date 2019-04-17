@@ -22,6 +22,16 @@ public interface Portal {
     String createGame(String opponentTeamId);
 
     /**
+     * Creates a new game
+     *
+     * @param opponentTeamId the team id of the the opponent
+     * @param boardSize      the size of the board
+     * @param target         the target
+     * @return the game id, or null if failed to create the game
+     */
+    String createGame(String opponentTeamId, int boardSize, int target);
+
+    /**
      * Makes a move
      *
      * @param coordinate the coordinate of the move
